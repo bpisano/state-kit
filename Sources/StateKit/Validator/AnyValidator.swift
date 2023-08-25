@@ -13,7 +13,7 @@ public struct AnyValidator<_State: State>: Validator {
 
     public var state: _State { validator.state as! _State }
     public var isValid: Bool { validator.isValid }
-    public var nextState: _State? { validator.nextState as? _State }
+    public var nextState: _State { validator.nextState as! _State }
     public var shouldPerformValidation: PassthroughSubject<Void, Never> { validator.shouldPerformValidation }
 
     public init<V: Validator>(_ validator: V) where V._State == _State {

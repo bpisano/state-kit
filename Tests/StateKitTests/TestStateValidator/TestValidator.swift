@@ -11,7 +11,7 @@ import StateKit
 
 final class TestValidator: Validator {
     public let state: AppState
-    public let nextState: AppState?
+    public let nextState: AppState
     public var isValid: Bool {
         didSet {
             shouldPerformValidation.send()
@@ -21,7 +21,7 @@ final class TestValidator: Validator {
 
     init(
         state: AppState,
-        nextState: AppState? = nil,
+        nextState: AppState,
         isValid: Bool
     ) {
         self.state = state
@@ -31,7 +31,7 @@ final class TestValidator: Validator {
 }
 
 extension Validator where Self == TestValidator {
-    static func test(state: AppState, nextState: AppState?, isValid: Bool) -> Self {
+    static func test(state: AppState, nextState: AppState, isValid: Bool) -> Self {
         .init(state: state, nextState: nextState, isValid: isValid)
     }
 }

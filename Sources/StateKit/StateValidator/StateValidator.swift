@@ -42,11 +42,8 @@ public final class StateValidator<_State: State> {
 
     private func getCurrentState() -> _State {
         var currentState: _State = initialState
-        while let validator = getValidator(for: currentState),
-              let nextState = validator.nextState,
-              validator.isValid
-        {
-            currentState = nextState
+        while let validator = getValidator(for: currentState), validator.isValid {
+            currentState = validator.nextState
         }
         return currentState
     }

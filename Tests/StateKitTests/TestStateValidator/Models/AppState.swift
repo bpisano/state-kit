@@ -10,6 +10,7 @@ import StateKit
 
 enum AppState: State {
     case onboarding
+    case setup
     case authentication
     case app
 }

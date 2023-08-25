@@ -11,39 +11,39 @@ import StateKit
 final class ValidatorTests: XCTestCase {
     func testStateValidation() {
         let stateValidator: StateValidator<AppState> = StateValidator(initialState: .onboarding) {
-            TestValidator(state: .onboarding, nextState: .authentication, isValid: true)
+            TestValidator(state: .onboarding, nextState: .setup, isValid: true)
+            TestValidator(state: .setup, nextState: .authentication, isValid: false)
             TestValidator(state: .authentication, nextState: .app, isValid: false)
-            TestValidator(state: .app, isValid: false)
         }
-        XCTAssertEqual(stateValidator.currentState, .authentication)
+        XCTAssertEqual(stateValidator.currentState, .setup)
     }
 
     func testValidStateAfterInvalidState() {
         let stateValidator: StateValidator<AppState> = StateValidator(initialState: .onboarding) {
-            TestValidator(state: .onboarding, nextState: .authentication, isValid: true)
-            TestValidator(state: .authentication, nextState: .app, isValid: false)
-            TestValidator(state: .app, isValid: true)
+            TestValidator(state: .onboarding, nextState: .setup, isValid: true)
+            TestValidator(state: .setup, nextState: .authentication, isValid: false)
+            TestValidator(state: .authentication, nextState: .app, isValid: true)
         }
-        XCTAssertEqual(stateValidator.currentState, .authentication)
+        XCTAssertEqual(stateValidator.currentState, .setup)
     }
 
     func testAllInvalidStates() {
         let stateValidator: StateValidator<AppState> = StateValidator(initialState: .onboarding) {
-            TestValidator(state: .onboarding, nextState: .authentication, isValid: false)
+            TestValidator(state: .onboarding, nextState: .setup, isValid: false)
+            TestValidator(state: .setup, nextState: .authentication, isValid: false)
             TestValidator(state: .authentication, nextState: .app, isValid: false)
-            TestValidator(state: .app, isValid: false)
         }
         XCTAssertEqual(stateValidator.currentState, .onboarding)
     }
 
     func testStateValidatorChange() {
-        let onboardingValidator: TestValidator = TestValidator(state: .onboarding, nextState: .authentication, isValid: true)
+        let onboardingValidator: TestValidator = TestValidator(state: .onboarding, nextState: .setup, isValid: true)
         let stateValidator: StateValidator<AppState> = StateValidator(initialState: .onboarding) {
             onboardingValidator
+            TestValidator(state: .setup, nextState: .authentication, isValid: false)
             TestValidator(state: .authentication, nextState: .app, isValid: false)
-            TestValidator(state: .app, isValid: false)
         }
-        XCTAssertEqual(stateValidator.currentState, .authentication)
+        XCTAssertEqual(stateValidator.currentState, .setup)
         onboardingValidator.isValid = false
         wait(forSeconds: 0.1)
         XCTAssertEqual(stateValidator.currentState, .onboarding)
