@@ -70,7 +70,7 @@ final class OnboardingValidator {
 }
 ```
 
-**3. Initialize the StateValidator**: The S`tateValidator` class manages state transitions based on validators. It requires an initial state and a list of validators.
+**3. Initialize the StateValidator**: The `StateValidator` class manages state transitions based on validators. It requires an initial state and a list of validators.
 
 ```swift
 let stateValidator: StateValidator<AppState> = StateValidator(initialState: .onboarding) {
