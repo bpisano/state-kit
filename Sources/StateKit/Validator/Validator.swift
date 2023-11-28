@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Combine
+@_exported import Combine
 
 public protocol Validator {
     associatedtype _State: State
