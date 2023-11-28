@@ -44,8 +44,8 @@ enum AppState: State {
 **2. Create validators**: Validators determine state validity and specify the next state. They conform to the `Validator` protocol.
 
 ```swift
-@Validate(AppState.authentication)
-final class OnboardingValidator {
+final class AuthenticationValidator {
+    let state: AppState = .authentication
     let nextState: AppState = .app
     var isValid: Bool {
         userManager.currentUser != nil

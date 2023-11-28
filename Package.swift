@@ -17,25 +17,12 @@ let package = Package(
             name: "StateKit",
             targets: ["StateKit"]),
     ],
-    dependencies: [
-        .package(url: "https://github.com/apple/swift-syntax.git", from: "509.0.2"),
-    ],
     targets: [
-        .macro(
-            name: "StateKitMacros",
-            dependencies: [
-                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
-                .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
-            ]
-        ),
         .target(
             name: "StateKit",
-            dependencies: ["StateKitMacros"]),
+            dependencies: []),
         .testTarget(
             name: "StateKitTests",
-            dependencies: [
-                "StateKit",
-                .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
-            ]),
+            dependencies: ["StateKit"]),
     ]
 )
