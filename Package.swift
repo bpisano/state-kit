@@ -18,7 +18,7 @@ let package = Package(
             targets: ["StateKit"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-syntax.git", branch: "main"),
+        .package(url: "https://github.com/apple/swift-syntax.git", from: "509.0.2"),
     ],
     targets: [
         .macro(
