@@ -25,6 +25,10 @@ public final class StateValidator<_State: State> {
         performValidation()
     }
 
+    func performValidation() {
+        currentState = getCurrentState()
+    }
+    
     private func observeValidators() {
         validators.forEach { validator in
             validator.shouldPerformValidation
@@ -36,9 +40,6 @@ public final class StateValidator<_State: State> {
         }
     }
 
-    private func performValidation() {
-        currentState = getCurrentState()
-    }
 
     private func getCurrentState() -> _State {
         var currentState: _State = initialState
