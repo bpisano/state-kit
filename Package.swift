@@ -6,11 +6,11 @@ import CompilerPluginSupport
 let package = Package(
     name: "StateKit",
     platforms: [
-        .iOS(.v13),
-        .watchOS(.v6),
-        .tvOS(.v13),
-        .macCatalyst(.v13),
-        .macOS(.v10_15)
+        .iOS(.v17),
+        .watchOS(.v10),
+        .tvOS(.v17),
+        .macCatalyst(.v17),
+        .macOS(.v14)
     ],
     products: [
         .library(

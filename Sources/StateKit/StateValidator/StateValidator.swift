@@ -6,19 +6,27 @@
 //
 
 import Foundation
+import Observation
 import Combine
 
+@Observable
 public final class StateValidator<_State: State> {
-    @Published public var currentState: _State
+    public var currentState: _State {
+        didSet {
+            currentStatePublisher.send(currentState)
+        }
+    }
+    @ObservationIgnored public var currentStatePublisher: CurrentValueSubject<_State, Never>
 
-    private let initialState: _State
-    private let validators: [AnyValidator<_State>]
-    private var cancellableSubscribers: Set<AnyCancellable> = []
+    @ObservationIgnored private let initialState: _State
+    @ObservationIgnored private let validators: [AnyValidator<_State>]
+    @ObservationIgnored private var cancellableSubscribers: Set<AnyCancellable> = []
 
     public init(
         initialState: _State,
         @ValidatorBuilder<_State> _ validators: () -> [AnyValidator<_State>]) {
         self.currentState = initialState
+            self.currentStatePublisher = .init(initialState)
         self.initialState = initialState
         self.validators = validators()
         observeValidators()
