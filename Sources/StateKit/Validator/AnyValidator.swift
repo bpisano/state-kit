@@ -12,7 +12,9 @@ public struct AnyValidator<_State: State>: Validator {
     private let validator: any Validator
 
     public var state: _State { validator.state as! _State }
-    public var isValid: Bool { validator.isValid }
+    public var isValid: Bool {
+        get async { await validator.isValid }
+    }
     public var nextState: _State { validator.nextState as! _State }
     public var shouldPerformValidation: PassthroughSubject<Void, Never> { validator.shouldPerformValidation }
 

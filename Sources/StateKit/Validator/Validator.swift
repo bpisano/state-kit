@@ -6,15 +6,15 @@
 //
 
 import Foundation
-@_exported import Combine
+@preconcurrency import Combine
 
-public protocol Validator {
+public protocol Validator: Sendable {
     associatedtype _State: State
 
     var state: _State { get }
     var nextState: _State { get }
-    var isValid: Bool { get }
-    var shouldPerformValidation: PassthroughSubject<Void, Never> { get }
+    var isValid: Bool { get async }
+    nonisolated var shouldPerformValidation: PassthroughSubject<Void, Never> { get }
 }
 
 extension Validator {

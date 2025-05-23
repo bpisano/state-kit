@@ -9,6 +9,7 @@ import Foundation
 import Observation
 import Combine
 
+@MainActor
 @Observable
 public final class StateValidator<_State: State> {
     public var currentState: _State {
@@ -24,9 +25,10 @@ public final class StateValidator<_State: State> {
 
     public init(
         initialState: _State,
-        @ValidatorBuilder<_State> _ validators: () -> [AnyValidator<_State>]) {
+        @ValidatorBuilder<_State> _ validators: () -> [AnyValidator<_State>]
+    ) {
         self.currentState = initialState
-            self.currentStatePublisher = .init(initialState)
+        self.currentStatePublisher = .init(initialState)
         self.initialState = initialState
         self.validators = validators()
         observeValidators()
@@ -34,7 +36,9 @@ public final class StateValidator<_State: State> {
     }
 
     public func performValidation() {
-        currentState = getCurrentState()
+        Task {
+            currentState = await getCurrentState()
+        }
     }
 
     private func observeValidators() {
@@ -48,10 +52,9 @@ public final class StateValidator<_State: State> {
         }
     }
 
-
-    private func getCurrentState() -> _State {
+    private func getCurrentState() async -> _State {
         var currentState: _State = initialState
-        while let validator = getValidator(for: currentState), validator.isValid {
+        while let validator = getValidator(for: currentState), await validator.isValid {
             currentState = validator.nextState
         }
         return currentState

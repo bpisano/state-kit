@@ -7,4 +7,4 @@
 
 import Foundation
 
-public protocol State: Equatable { }
+public protocol State: Equatable, Sendable { }
